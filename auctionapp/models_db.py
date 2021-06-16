@@ -1,6 +1,6 @@
-from datetime import date
-from sqlalchemy import Column, Integer, String, DateTime, Date, ARRAY, Time, engine
+# from datetime import date
 
+from sqlalchemy import Column, Integer, String, DateTime, Date, ARRAY, Time, engine
 from auctionapp.db import Base, engine
 
 class User(Base):
