@@ -56,6 +56,9 @@ ul{
     display: flex;
     justify-content: space-evenly;
 }
+ul li{
+    width: fit-content;
+}
 nav ul li{
     text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
     padding: 11px 15px;
@@ -311,4 +314,48 @@ hr {
 img{
     width: 100%;
     display: block;
+}
+#contact-form {
+    padding: 30px 10px;
+    font-size: 21px;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.input-div{
+    width: 31%;
+    min-height: 75px;
+    margin: 20px 0 0 0;
+}
+input{
+    font-family: inherit;
+    width: 100%;
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0 10px;
+    min-height: 50px;
+    background: #ebf4cb;
+    border: none;
+}
+.input-btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+.input-btn input{
+    width: 42%;
+    min-height: 50px;
+    background: #00592c;
+    color: antiquewhite;
+    font-size: 21px;
+    box-shadow: 5px 5px 20px;
+    cursor: pointer;
+    transition: all .3s;
+}
+.input-btn input:hover{
+    color: #fff;
+    box-shadow: 5px 5px 15px #81795c;
 }

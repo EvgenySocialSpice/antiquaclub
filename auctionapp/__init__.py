@@ -3,6 +3,7 @@ from flask import Flask, flash, render_template, redirect, url_for
 
 def create_app():
     app = Flask(__name__)
+    app.config.from_pyfile("config.py")
 
     @app.route('/')
     def index():
@@ -18,5 +19,10 @@ def create_app():
     def contacts():
         title = 'Контакты'
         return render_template('site/contacts.html', page_title=title)
+
+    @app.route('/login')
+    def login():
+        title = 'Авторизация'
+        return render_template('user/login.html', page_title=title)
 
     return app
