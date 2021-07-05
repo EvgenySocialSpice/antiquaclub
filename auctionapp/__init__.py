@@ -1,9 +1,11 @@
 from flask import Flask, flash, render_template, redirect, url_for
+from auctionapp.models_db import Base
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile("config.py")
+    Base.init_app(app)
 
     @app.route('/')
     def index():
