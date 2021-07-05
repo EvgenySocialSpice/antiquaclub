@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+<main>
+    <h2>Новые лоты этой недели</h2>
+    <div class="frame">
+        <div class="slider">
+            <img src="{{ url_for('static', filename='/images/slider/sl01.jpg') }}" alt="bracelet" class="is-showing"/>
+            <img src="{{ url_for('static', filename='/images/slider/sl02.jpg') }}" alt="spoon"/>
+            <img src="{{ url_for('static', filename='/images/slider/sl03.jpg') }}" alt="box"/>
+            <img src="{{ url_for('static', filename='/images/slider/sl04.jpg') }}" alt="clock"/>
+        </div>
+    </div>
+
+    <div class="main-article">
+        <p>
+            This is a miscellany collection of personal experience stories, essays, book pilots, hiking guides,
+            music and pictures reflecting a life much of which has been spent in the mountains, Africa and other
+            interesting parts of the world. Articles and pictures include Mountaineering, summer and winter rock
+            climbing,
+            Mountain Rescue, Hiking guides for hikes from the NW Scottish Highlands to the Cape area of South Africa.
+        </p>
+
+    </div>
+
+
+</main>
+<article>
+    <h3>Завершающиеся торги</h3>
+    <div class="items">
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/02.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/09.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/010.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/012.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/015.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/09.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/010.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/012.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+    </div>
+
+</article>
+<section>
+    <hr>
+</section>
+
+<script src="{{ url_for('static', filename='/js/myScript.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page_title }}</title>
+    <meta name="viewport" content="width=device-width">
+    <link href="{{ url_for('static', filename='/css/reset.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='/css/styles.css') }}" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='/images/auction.ico') }}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
+<body>
+<header>
+    <ul class="menu">
+        <li><a href="/login">Регистрация и вход</a></li>
+        <li><a href="/">Разместить лот</a></li>
+        <li>Helpline WhatsApp: 222 33 44</li>
+    </ul>
+    <div class="logo">
+        <div class="logo-img"><img src="{{ url_for('static', filename='/images/logo.png') }}" alt="logo"></div>
+        <div>
+            <h1>АнтиквА</h1>
+            <h2>Ваш онлайн аукцион</h2>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/">Главная</a></li>
+            <li><a href="/">Аукцион</a></li>
+            <li><a href="/">Популярные лоты</a></li>
+            <li><a href="/about">О нас</a></li>
+            <li><a href="/contacts">Контакты</a></li>
+        </ul>
+    </nav>
+</header>
+<aside>
+    <h3>Категории</h3>
+    <ul>
+        <li><a href="/">Серебро</a></li>
+        <li><a href="/">Картины</a></li>
+        <li><a href="/">Мебель</a></li>
+        <li><a href="/">Марки</a></li>
+        <li><a href="/">Ювелирные</a></li>
+        <li><a href="/">Оружие</a></li>
+        <li><a href="/">Часы</a></li>
+        <li><a href="/">Разное</a></li>
+        <li><a href="/">Разное</a></li>
+        <li><a href="/">Разное</a></li>
+        <li><a href="/">Разное</a></li>
+        <li><a href="/">Разное</a></li>
+    </ul>
+</aside>
+{% block content %}{% endblock %}
+<footer>
+    <div class="footer-info">
+        <ul class="footer-info-list">
+            <li><a href="/">Правила Аукциона</a></li>
+            <li><a href="">Новости</a></li>
+            <li><a href="/gallery/">Галлерея</a></li>
+            <li><a href="">Форум</a></li>
+        </ul>
+    </div>
+    <div class="footer-SUBSCRIBE">
+        <p>
+            Хотите первым узнавать <br>
+            <span>О НОВЫХ ПОСТУПЛЕНИЯХ</span>
+        </p>
+        <a href="/">
+            <div class="footer-box">Подпишись</div>
+        </a>
+    </div>
+    <div class="footer-follow">
+        <div class="footer-follow-icon">Следите за нашими новостями:</div>
+        <div class="icons-wrapper">
+            <div class="footer-follow-icons">
+                <a href="https://www.facebook.com/" target="_blank">
+                    <img src="{{ url_for('static', filename='/images/facebook.png') }}" alt="facebook">
+                </a>
+            </div>
+            <div class="footer-follow-icons">
+                <a href="https://www.instagram.com/" target="_blank">
+                    <img src="{{ url_for('static', filename='/images/instagram.png') }}" alt="instagram">
+                </a>
+            </div>
+            <div class="footer-follow-icons">
+                <a href="https://www.tiktok.com/" target="_blank">
+                    <img src="{{ url_for('static', filename='/images/tiktok.png') }}" alt="tiktok">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-signature">
+        <p>Antiqua.club © 2021 All rights reserved</p>
+        <p style="display: flex">Designed by&nbsp; <a href="/" target="_blank">Special Team</a></p>
+    </div>
+
+</footer>
+</body>
+
+</html>
