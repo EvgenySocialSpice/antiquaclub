@@ -1,5 +1,5 @@
 from faker import Faker
-from datetime import datetime
+from datetime import datetime, time, timedelta
 import random
 from auctionapp.db import db_session
 from auctionapp.models_db import User, Tag, Item, ItemTag, Bet, Category, generate_password_hash
@@ -24,10 +24,10 @@ def choose_description():
     return description
 
 
-def get_thing_by_id(things, thing_name):
-    for thing in things:
-        if thing["name"] == thing_name:
-            return thing["id"]
+def get_category_by_id(categories, category_name):
+    for category in categories:
+        if category["name"] == category_name:
+            return category["id"]
 
 
 def fake_users(num_rows=35):
@@ -44,7 +44,7 @@ def fake_users(num_rows=35):
                 "phone": fake.phone_number(),
                 "birth_date": fake.date_of_birth(minimum_age=18, maximum_age=90),
                 "reg_datetime": fake.date_time_between(start_date="-45d", end_date="-30d"),
-                "password": "1234",
+                "password": generate_password_hash("1234"),
                 "role_user": "user",   # аdmin/user
                 "phone_confirmed": True,
                 "email_confirmed": True
@@ -53,7 +53,7 @@ def fake_users(num_rows=35):
     return users
 
 
-def fake_items_not_complete(item_list, categories, users):
+def fake_items(item_list, categories, users):
     items = []
     for category in item_list:
         for item_name in item_list[category]:
@@ -61,10 +61,10 @@ def fake_items_not_complete(item_list, categories, users):
             step_price = random.randint(int(nom_price/10), int(nom_price/2))*100  # шаг от 10% до 50
             nom_price *= 100
             item = {"name": item_name,
-                    "category_id": get_thing_by_id(categories, category),
+                    "category_id": get_category_by_id(categories, category),
                     "year": random.randint(1560, 1950),
                     "description": choose_description(),
-                    "reg_time": fake.date_time_between(start_date="-29d", end_date="-2d"),
+                    "reg_time": fake.date_time_between(start_date="-29d", end_date="-6d"),
                     "nom_price": nom_price,
                     "step_price": step_price,
                     "last_price": None,
@@ -74,59 +74,128 @@ def fake_items_not_complete(item_list, categories, users):
                     "max_time_duration": random.randint(1, 24),  # hours
                     "seller_user_id": random.choice(users)["id"],
                     "buyer_user_id": None,
-                    "status": "future_auction",
+                    "status": "future_sale",
                     }
             items.append(item)
     return items
 
 
 def tags_for_items(items, tags):
-    number_of_tags = random.randint(0, 4)
     tags_items = []
     for item in items:
-        item_id = get_thing_by_id(items, item)
+        number_of_tags = random.randint(0, 4)  # количество тегов
         for _ in range(number_of_tags):
-            tag_item = {"item_id": item_id,
-                        "tag_id": random.choice(tags)['id']
+            tag_item = {"item_id": item["id"],
+                        "tag_id": random.choice(tags)["id"]
                         }
             tags_items.append(tag_item)
     return tags_items
 
 
-def load_items(items):
-    db_session.bulk_insert_mappings(Item, items, return_defaults=True)
+def load_data(data, model, get_id=True):
+    db_session.bulk_insert_mappings(model, data, return_defaults=get_id)
     db_session.commit()
-    return items
+    return data
 
 
-def load_tags():
-    tag_list = ["золото", "серебро", "бронза", "обсидиан", "фарфор", "дерево", "очень редкая вещь", "предмет из набора",
-                "камень", "готика", "возрождение", "барокко", "клаcсицизм", "сталь", "эпическая", "средние века",
-                "эпоха возрождения", "новое время"
-                ]
-    tags = []
-    for tag_name in tag_list:
-        tag = {"name": tag_name}
-        tags.append(tag)
-    db_session.bulk_insert_mappings(Tag, tags, return_defaults=True)
+def fake_data_from_list(fake_list):
+    things = []
+    for thing_name in fake_list:
+        thing = {"name": thing_name}
+        things.append(thing)
+    return things
+
+
+def choose_random_item(items):
+    item = random.choice(items)
+    items.remove(item)
+    return item, items
+
+
+# def first_bet(items)
+#     return item, status, bet
+def get_random_user_id(users, seller_id):
+    user = random.choice(users)
+    while user["id"] == seller_id:
+        user = random.choice(users)
+    return user["id"]
+
+
+def fake_bets(users, items, failed_sales=6, success_sales=18):
+    bets = []
+    items_to_change = []
+    for _ in range(failed_sales):
+        item, items = choose_random_item(items)
+        item["start_auction"] = item["reg_time"] + timedelta(days=random.randint(1, 5))
+        item["status"] = "failed_sale"
+        bet = {"user_id": item["seller_user_id"],
+               "item_id": item["id"],
+               "trans_time": item["start_auction"],
+               "current_price": item["nom_price"],
+               "bet_type": "start_sale"
+               }
+        bets.append(bet)
+        bet = {"user_id": item["seller_user_id"],
+               "item_id": item["id"],
+               "trans_time": item["start_auction"] + timedelta(hours=item["max_time_duration"]),
+               "current_price": item["nom_price"],
+               "bet_type": "failed_sale"
+               }
+        bets.append(bet)
+        items_to_change.append(item)
+
+    for _ in range(success_sales):
+        item, items = choose_random_item(items)
+        item["status"] = "success_sale"
+        item["start_auction"] = item["reg_time"] + timedelta(days=random.randint(1, 5))
+        bet = {"user_id": item["seller_user_id"],
+               "item_id": item["id"],
+               "trans_time": item["start_auction"],
+               "current_price": item["nom_price"],
+               "bet_type": "start_sale"
+               }
+        bets.append(bet)
+        number_of_bets = random.randint(3, 25)
+        current_price = item['nom_price']
+        seller_id = item["seller_user_id"]
+
+        for _ in range(number_of_bets):
+            rand_bet_time = random.randint(1, item['step_time']*60-1)
+            buyer = get_random_user_id(users, seller_id)
+            trans_time = bets[-1]["trans_time"] + timedelta(seconds=rand_bet_time)
+            bet = {"user_id": buyer,
+                   "item_id": item["id"],
+                   "trans_time": trans_time,
+                   "current_price": current_price,
+                   "bet_type": "bet_sale"
+                   }
+            current_price += item["step_price"]
+            bets.append(bet)
+
+        bet = {"user_id": buyer,
+               "item_id": item["id"],
+               "trans_time": bets[-1]["trans_time"]+timedelta(minutes=item["step_time"]),
+               "current_price": bets[-1]["current_price"],
+               "bet_type": "success_sale"
+               }
+        bets.append(bet)
+        item["last_price"] = bets[-1]["current_price"]
+        item["success_end_time"] = bets[-1]["trans_time"]
+        item["buyer_user_id"] = bets[-1]["user_id"]
+        items_to_change.append(item)
+    return bets, items_to_change
+
+
+def update_items(items):
+    # for item in items:
+    #     item_from_base = Item.query.filter(Item.id == item["id"])
+    #     item_from_base.buyer_user_id = item["buyer_user_id"]
+    #     item_from_base.status = item["status"]
+    #     item_from_base.start_auction = item["start_auction"]
+    #     item_from_base.last_price = item["last_price"]
+    #     item_from_base.success_end_time = item["success_end_time"]
+    db_session.bulk_update_mappings(Item, items)
     db_session.commit()
-    return tags
-
-
-def load_categories(category_list):
-    categories = []
-    for category_name in category_list:
-        category = {"name": category_name}
-        categories.append(category)
-    db_session.bulk_insert_mappings(Category, categories, return_defaults=True)
-    db_session.commit()
-    return categories
-
-
-def load_users(users):
-    db_session.bulk_insert_mappings(User, users, return_defaults=True)
-    db_session.commit()
-    return users
 
 
 def main():
@@ -144,14 +213,27 @@ def main():
              "Марки": ["Коллекция 'СССР'", "Коллекция 'Современное искусство'", "Армия спасения", "Томас Иккерсон",
                        "Куба 'Железные дороги'", "Германия 'Машины'", "Италия 'Шахматы'", "Крайний север"]
              }
+
+    tag_list = ["золото", "серебро", "бронза", "обсидиан", "фарфор", "дерево", "очень редкая вещь", "предмет из набора",
+                "камень", "готика", "возрождение", "барокко", "клаcсицизм", "сталь", "эпическая", "средние века",
+                "эпоха возрождения", "новое время"
+                ]
     users = fake_users()
-    users = load_users(users)
-    categories = load_categories(items)
-    tags = load_tags()
-    items = fake_items_not_complete(items, categories, users)
-    items = load_items(items)
+    users = load_data(users, User)
+    categories = fake_data_from_list(items)
+    categories = load_data(categories, Category)
+    tags = fake_data_from_list(tag_list)
+    tags = load_data(tags, Tag)
+    items = fake_items(items, categories, users)
+    items = load_data(items, Item)
     tags_items = tags_for_items(items, tags)
-    
+    load_data(tags_items, ItemTag, get_id=False)
+    bets, items_to_change = fake_bets(users, items)
+    # for bet in bets:
+        # print(bet)
+    bets = load_data(bets, Bet, get_id=False)
+    update_items(items_to_change)
+
 
 if __name__ == "__main__":
     main()
