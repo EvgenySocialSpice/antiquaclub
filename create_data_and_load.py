@@ -140,12 +140,12 @@ def create_bets_for_items(users, item, bets):
     for _ in range(number_of_bets):
         rand_bet_time = random.randint(1, item['step_time']*60-1)
         buyer = get_random_user_id(users, seller_id)
-        bet = bets[-1].copy()
         bet["trans_time"] += timedelta(seconds=rand_bet_time)
         bet["user_id"] = buyer
         bet["current_price"] = current_price
         current_price += item["step_price"]
         bets.append(bet)
+        bet = bets[-1].copy()
     return bets
 
 
