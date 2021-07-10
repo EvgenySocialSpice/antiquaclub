@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, Date, Time, ForeignKey, Boolean
 from sqlalchemy_utils import EmailType
 from sqlalchemy.orm import relationship
+# from db import Base, engine
 from auctionapp.db import Base, engine
 
 

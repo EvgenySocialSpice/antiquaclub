@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <link href="{{ url_for('static', filename='/css/reset.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url_for('static', filename='/css/styles.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='/css/smoothproducts.css') }}" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='/images/auction.ico') }}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
@@ -26,29 +27,31 @@
     <nav>
         <ul>
             <li><a href="/">Главная</a></li>
-            <li><a href="/">Аукцион</a></li>
-            <li><a href="/">Популярные лоты</a></li>
+            <li><a href="/auction">Аукцион</a></li>
+            <li><a href="/popular">Популярные лоты</a></li>
             <li><a href="/about">О нас</a></li>
             <li><a href="/contacts">Контакты</a></li>
         </ul>
     </nav>
 </header>
 <aside>
-    <h3>Категории</h3>
-    <ul>
-        <li><a href="/">Серебро</a></li>
-        <li><a href="/">Картины</a></li>
-        <li><a href="/">Мебель</a></li>
-        <li><a href="/">Марки</a></li>
-        <li><a href="/">Ювелирные</a></li>
-        <li><a href="/">Оружие</a></li>
-        <li><a href="/">Часы</a></li>
-        <li><a href="/">Разное</a></li>
-        <li><a href="/">Разное</a></li>
-        <li><a href="/">Разное</a></li>
-        <li><a href="/">Разное</a></li>
-        <li><a href="/">Разное</a></li>
-    </ul>
+    <div class="aside-categories">
+        <h3>Категории</h3>
+        <ul>
+            <li><a href="/category">Серебро</a></li>
+            <li><a href="/">Картины</a></li>
+            <li><a href="/">Мебель</a></li>
+            <li><a href="/">Марки</a></li>
+            <li><a href="/">Ювелирные</a></li>
+            <li><a href="/">Оружие</a></li>
+            <li><a href="/">Часы</a></li>
+            <li><a href="/">Разное</a></li>
+            <li><a href="/">Разное</a></li>
+            <li><a href="/">Разное</a></li>
+            <li><a href="/">Разное</a></li>
+            <li><a href="/">Разное</a></li>
+        </ul>
+    </div>
 </aside>
 {% block content %}{% endblock %}
 <footer>

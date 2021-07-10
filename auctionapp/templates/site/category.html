@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main>
+    <h2>{{ page_title }} </h2>
+    <div class="main-article">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium atque delectus,
+            dolorem ea facere fugiat inventore itaque modi molestias nihil nobis nostrum officia
+            quibusdam quis repellendus sapiente, ut vitae voluptatum.
+        </p>
+    </div>
+    <article>
+    <div class="items">
+        <div>
+            <a href="/product" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/02.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/09.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/010.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/012.jpg') }}" alt="">
+            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+
+    </div>
+</article>
+</main>
+
+{% endblock %}

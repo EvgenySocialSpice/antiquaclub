@@ -1,31 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<main>
-    <h2>Новые лоты этой недели</h2>
-    <div class="frame">
-        <div class="slider">
-            <img src="{{ url_for('static', filename='/images/slider/sl01.jpg') }}" alt="bracelet" class="is-showing"/>
-            <img src="{{ url_for('static', filename='/images/slider/sl02.jpg') }}" alt="spoon"/>
-            <img src="{{ url_for('static', filename='/images/slider/sl03.jpg') }}" alt="box"/>
-            <img src="{{ url_for('static', filename='/images/slider/sl04.jpg') }}" alt="clock"/>
-        </div>
-    </div>
 
+<main>
+    <h2>{{ page_title }}</h2>
     <div class="main-article">
         <p>
-            This is a miscellany collection of personal experience stories, essays, book pilots, hiking guides,
-            music and pictures reflecting a life much of which has been spent in the mountains, Africa and other
-            interesting parts of the world. Articles and pictures include Mountaineering, summer and winter rock
-            climbing,
-            Mountain Rescue, Hiking guides for hikes from the NW Scottish Highlands to the Cape area of South Africa.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium atque delectus,
+            dolorem ea facere fugiat inventore itaque modi molestias nihil nobis nostrum officia
+            quibusdam quis repellendus sapiente, ut vitae voluptatum.
         </p>
-
     </div>
-
-
-</main>
-<article>
-    <h3>Завершающиеся торги</h3>
+    <article>
     <div class="items">
         <div>
             <a href="/product" class="item-link"></a>
@@ -77,12 +62,8 @@
             <p>Стартовая цена: <span>200 ₽</span></p>
         </div>
     </div>
-
 </article>
-<section>
-    <hr>
-</section>
+</main>
 
-<script src="{{ url_for('static', filename='/js/myScript.js') }}"></script>
 
 {% endblock %}
