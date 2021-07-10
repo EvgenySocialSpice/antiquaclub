@@ -79,7 +79,7 @@ class Item(Base):
 class Bet(Base):
     __tablename__ = "bets"
 
-    id = Column(Integer, primary_key=True)  
+    id = Column(Integer, primary_key=True)
     user_id = Column(Integer(), ForeignKey(User.id), index=True, nullable=False)
     item_id = Column(Integer(), ForeignKey(Item.id), index=True, nullable=False)
     trans_time = Column(DateTime(), nullable=False, index=True)

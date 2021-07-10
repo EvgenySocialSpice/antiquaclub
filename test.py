@@ -8,12 +8,12 @@ fake = Faker('ru_Ru')
 
 
 # date = fake.year(start_date='-')
-date = fake.date_time_between(start_date="-3d").replace(second=0)
-date2 = fake.date_time_between(start_date=date, end_date=date+timedelta(hours=2))
-date3 = date2 + timedelta(seconds=50)
-print(date)
-print(date2)
-print(date3)
+# date = fake.date_time_between(start_date="-3d").replace(second=0)
+# date2 = fake.date_time_between(start_date=date, end_date=date+timedelta(hours=2))
+# date3 = date2 + timedelta(seconds=50)
+# print(date)
+# print(date2)
+# print(date3)
 # for _ in range(10):
 #     a = random.randint(0 ,2)
 #     print(f"a= {a}")
@@ -54,8 +54,16 @@ print(date3)
 # # for row in a_list:
 # #     print(row["number"])
 
-# b = [1,2,3,4]
-# a = [1]
+spisok = []
+row = {"a": 1, "b": 2, "c": 3}
+spisok.append(row)
+row = spisok[-1].copy()
+row["a"] = 10
+spisok.append(row)
+print(spisok)
 
-# print(b[-1])
-# print(a[-1])
+[{'a': 10, 'b': 2, 'c': 3}, 
+ {'a': 10, 'b': 2, 'c': 3}]
+
+[{'a': 1, 'b': 2, 'c': 3}, 
+ {'a': 10, 'b': 2, 'c': 3}]

@@ -1,5 +1,5 @@
 from faker import Faker
-from datetime import datetime, time, timedelta
+from datetime import timedelta
 import random
 from auctionapp.db import db_session
 from auctionapp.models_db import User, Tag, Item, ItemTag, Bet, Category, generate_password_hash
@@ -112,8 +112,6 @@ def choose_random_item(items):
     return item, items
 
 
-# def first_bet(items)
-#     return item, status, bet
 def get_random_user_id(users, seller_id):
     user = random.choice(users)
     while user["id"] == seller_id:
@@ -121,79 +119,80 @@ def get_random_user_id(users, seller_id):
     return user["id"]
 
 
+def create_and_set_bet(item):
+    item["start_auction"] = item["reg_time"] + timedelta(days=random.randint(1, 5))
+    bet = {"user_id": item["seller_user_id"],
+           "item_id": item["id"],
+           "trans_time": item["start_auction"],
+           "current_price": item["nom_price"],
+           "bet_type": "start_sale"
+           }
+
+    return item, bet
+
+
+def create_bets_for_items(users, item, bets):
+    number_of_bets = random.randint(3, 25)
+    current_price = item['nom_price']
+    seller_id = item["seller_user_id"]
+    bet = bets[-1].copy()
+    bet["bet_type"] = "bet_sale"
+    for _ in range(number_of_bets):
+        rand_bet_time = random.randint(1, item['step_time']*60-1)
+        buyer = get_random_user_id(users, seller_id)
+        bet = bets[-1].copy()
+        bet["trans_time"] += timedelta(seconds=rand_bet_time)
+        bet["user_id"] = buyer
+        bet["current_price"] = current_price
+        current_price += item["step_price"]
+        bets.append(bet)
+    return bets
+
+
+def fake_failed_sales(items, bets, items_to_change, failed_sales):
+    for _ in range(failed_sales):
+        item, items = choose_random_item(items)
+        item, bet = create_and_set_bet(item)
+        bets.append(bet)
+        bet = bets[-1].copy()
+        bet["bet_type"] = "failed_sale"
+        bet["trans_time"] += timedelta(hours=item["max_time_duration"])
+        bets.append(bet)
+        item["status"] = "failed_sale"
+        items_to_change.append(item)
+
+    return items, bets, items_to_change
+
+
+def fake_success_sales(items, bets, items_to_change, users, success_sales):
+    for _ in range(success_sales):
+        item, items = choose_random_item(items)
+        item, bet = create_and_set_bet(item)
+        bets.append(bet)
+        bets = create_bets_for_items(users, item, bets)
+        bet = bets[-1].copy()
+        bet["trans_time"] += timedelta(minutes=item["step_time"])
+        bet["bet_type"] = "success_sale"
+        bets.append(bet)
+        item["last_price"] = bet["current_price"]
+        item["success_end_time"] = bet["trans_time"]
+        item["buyer_user_id"] = bet["user_id"]
+        item["status"] = "success_sale"
+        items_to_change.append(item)
+
+    return bets, items_to_change
+
+
 def fake_bets(users, items, failed_sales=6, success_sales=18):
     bets = []
     items_to_change = []
-    for _ in range(failed_sales):
-        item, items = choose_random_item(items)
-        item["start_auction"] = item["reg_time"] + timedelta(days=random.randint(1, 5))
-        item["status"] = "failed_sale"
-        bet = {"user_id": item["seller_user_id"],
-               "item_id": item["id"],
-               "trans_time": item["start_auction"],
-               "current_price": item["nom_price"],
-               "bet_type": "start_sale"
-               }
-        bets.append(bet)
-        bet = {"user_id": item["seller_user_id"],
-               "item_id": item["id"],
-               "trans_time": item["start_auction"] + timedelta(hours=item["max_time_duration"]),
-               "current_price": item["nom_price"],
-               "bet_type": "failed_sale"
-               }
-        bets.append(bet)
-        items_to_change.append(item)
+    items, bets, items_to_change = fake_failed_sales(items, bets, items_to_change, failed_sales)
+    bets, items_to_change = fake_success_sales(items, bets, items_to_change, users, success_sales)
 
-    for _ in range(success_sales):
-        item, items = choose_random_item(items)
-        item["status"] = "success_sale"
-        item["start_auction"] = item["reg_time"] + timedelta(days=random.randint(1, 5))
-        bet = {"user_id": item["seller_user_id"],
-               "item_id": item["id"],
-               "trans_time": item["start_auction"],
-               "current_price": item["nom_price"],
-               "bet_type": "start_sale"
-               }
-        bets.append(bet)
-        number_of_bets = random.randint(3, 25)
-        current_price = item['nom_price']
-        seller_id = item["seller_user_id"]
-
-        for _ in range(number_of_bets):
-            rand_bet_time = random.randint(1, item['step_time']*60-1)
-            buyer = get_random_user_id(users, seller_id)
-            trans_time = bets[-1]["trans_time"] + timedelta(seconds=rand_bet_time)
-            bet = {"user_id": buyer,
-                   "item_id": item["id"],
-                   "trans_time": trans_time,
-                   "current_price": current_price,
-                   "bet_type": "bet_sale"
-                   }
-            current_price += item["step_price"]
-            bets.append(bet)
-
-        bet = {"user_id": buyer,
-               "item_id": item["id"],
-               "trans_time": bets[-1]["trans_time"]+timedelta(minutes=item["step_time"]),
-               "current_price": bets[-1]["current_price"],
-               "bet_type": "success_sale"
-               }
-        bets.append(bet)
-        item["last_price"] = bets[-1]["current_price"]
-        item["success_end_time"] = bets[-1]["trans_time"]
-        item["buyer_user_id"] = bets[-1]["user_id"]
-        items_to_change.append(item)
     return bets, items_to_change
 
 
 def update_items(items):
-    # for item in items:
-    #     item_from_base = Item.query.filter(Item.id == item["id"])
-    #     item_from_base.buyer_user_id = item["buyer_user_id"]
-    #     item_from_base.status = item["status"]
-    #     item_from_base.start_auction = item["start_auction"]
-    #     item_from_base.last_price = item["last_price"]
-    #     item_from_base.success_end_time = item["success_end_time"]
     db_session.bulk_update_mappings(Item, items)
     db_session.commit()
 
@@ -220,18 +219,22 @@ def main():
                 ]
     users = fake_users()
     users = load_data(users, User)
+
     categories = fake_data_from_list(items)
     categories = load_data(categories, Category)
+
     tags = fake_data_from_list(tag_list)
     tags = load_data(tags, Tag)
+
     items = fake_items(items, categories, users)
     items = load_data(items, Item)
+
     tags_items = tags_for_items(items, tags)
     load_data(tags_items, ItemTag, get_id=False)
+
     bets, items_to_change = fake_bets(users, items)
-    # for bet in bets:
-        # print(bet)
-    bets = load_data(bets, Bet, get_id=False)
+    load_data(bets, Bet, get_id=False)
+
     update_items(items_to_change)
 
 
