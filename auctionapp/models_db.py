@@ -1,10 +1,15 @@
+from auctionapp.db import Base, engine
+
 from sqlalchemy import Column, Integer, String, DateTime, Date, Time, ForeignKey, Boolean
 from sqlalchemy_utils import EmailType
 from sqlalchemy.orm import relationship
-from auctionapp.db import Base, engine
+
+from flask_login import UserMixin
+
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = "users"
 
     id = Column(Integer(), primary_key=True)
@@ -12,7 +17,7 @@ class User(Base):
     last_name = Column(String(), nullable=False)
     nickname = Column(String(), unique=True, nullable=False, index=True)
     email = Column(EmailType(), unique=True, nullable=False, index=True)
-    phone = Column(Integer(), unique=True, nullable=False)
+    phone = Column(String(), unique=True, nullable=False)
     birth_date = Column(Date(), nullable=False)
     reg_datetime = Column(DateTime(), nullable=False)
     password = Column(String(), nullable=False)
@@ -21,6 +26,12 @@ class User(Base):
     bets = relationship("Bet", lazy="joined")
     phone_confirmed = Column(Boolean())
     email_confirmed = Column(Boolean())
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
     def __repr__(self):
         return f"User {self.id}, {self.nickname}, {self.email}"
@@ -51,7 +62,8 @@ class Item(Base):
     last_price = Column(Integer())
     start_auction = Column(DateTime())
     success_end_time = Column(DateTime())
-    max_time_duration = Column(Time())
+    step_time = Column(Integer())  # максимамальное время ставки после первой в минутах
+    max_time_duration = Column(Integer())
     seller_user_id = Column(Integer(), ForeignKey(User.id), index=True, nullable=False)
     buyer_user_id = Column(Integer(), ForeignKey(User.id), index=True)
     status = Column(String(), nullable=False, index=True)
@@ -67,7 +79,7 @@ class Item(Base):
 class Bet(Base):
     __tablename__ = "bets"
 
-    id = Column(Integer, primary_key=True)  
+    id = Column(Integer, primary_key=True)
     user_id = Column(Integer(), ForeignKey(User.id), index=True, nullable=False)
     item_id = Column(Integer(), ForeignKey(Item.id), index=True, nullable=False)
     trans_time = Column(DateTime(), nullable=False, index=True)
@@ -97,7 +109,7 @@ class ItemTag(Base):
     id = Column(Integer(), primary_key=True)
     item_id = Column(Integer(), ForeignKey(Item.id), index=True, nullable=False)
     tag_id = Column(Integer(), ForeignKey(Tag.id), index=True, nullable=False)
-    item = relationship("ItemTag", lazy="joined")
+    item = relationship("Item", lazy="joined")
     tag = relationship("Tag", lazy="joined")
 
     def __repr__(self):
