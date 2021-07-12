@@ -109,7 +109,7 @@ class ItemTag(Base):
     id = Column(Integer(), primary_key=True)
     item_id = Column(Integer(), ForeignKey(Item.id), index=True, nullable=False)
     tag_id = Column(Integer(), ForeignKey(Tag.id), index=True, nullable=False)
-    item = relationship("ItemTag", lazy="joined")
+    item = relationship("Item", lazy="joined")
     tag = relationship("Tag", lazy="joined")
 
     def __repr__(self):
