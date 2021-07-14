@@ -1,5 +1,5 @@
 from auctionapp.models_db import Category
-from auctionapp.queiries import get_items_by_category, get_items
+from auctionapp.queiries import get_categories, get_items_by_category
 
 
 def print_list(rows):
@@ -7,7 +7,15 @@ def print_list(rows):
         print(row)
 
 
+def print_items(items):
+    for item in items:
+        print(f"{item.name} - {item.seller.email}")
+
+
 if __name__ == "__main__":
-    items_by_category = get_items_by_category()
-    items = get_items()
-    print_list(items_by_category)
+    categories = get_categories()
+
+    print_list(categories)
+
+    items = get_items_by_category("Часы")
+    print_items(items)

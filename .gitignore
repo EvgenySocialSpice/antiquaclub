@@ -133,3 +133,4 @@ config.py
 .vscode/
 test.py
 create_data_and_load_badcode.py
+testing_queries.py 
