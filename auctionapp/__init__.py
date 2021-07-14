@@ -5,8 +5,8 @@ from auctionapp.models_db import Base
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile("config.py")
-    # Base.init_app(app)
-
+    #Base.init_app(app)
+    
     @app.route('/')
     def index():
         title = 'АнтиквА Аукцион онлайн'
@@ -26,5 +26,25 @@ def create_app():
     def login():
         title = 'Авторизация'
         return render_template('user/login.html', page_title=title)
+
+    @app.route('/auction')
+    def auction():
+        title = 'Открытые Лоты'
+        return render_template('site/auction.html', page_title=title)
+
+    @app.route('/popular')
+    def popular():
+        title = 'Популярные Лоты'
+        return render_template('site/popular.html', page_title=title)
+
+    @app.route('/category')
+    def category():
+        title = 'Лоты категории:'
+        return render_template('site/category.html', page_title=title)
+
+    @app.route('/product')
+    def product():
+        title = ''
+        return render_template('site/product.html', page_title=title)
 
     return app

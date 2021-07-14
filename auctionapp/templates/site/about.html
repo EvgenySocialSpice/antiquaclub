@@ -1,6 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>{{ page_title }}</h1>
+<main>
+    <h2>{{ page_title }}</h2>
+    <div class="main-article">
+        <div class="main-img"><img src="{{ url_for('static', filename='/images/hammer.jpg') }}" alt=""></div>
+        <div class="main-text">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium atque delectus,
+                dolorem ea facere fugiat inventore itaque modi molestias nihil nobis nostrum officia
+                quibusdam quis repellendus sapiente, ut vitae voluptatum.
+            </p>
+            <p>
+                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium autem debitis
+                    deserunt, est eveniet, ex fuga ipsam itaque molestiae natus pariatur possimus provident
+                    quaerat quia quo repellendus sequi soluta vitae?</span><span>Alias atque blanditiis corporis
+                deleniti deserunt dignissimos dolore doloremque dolorum ducimus fugiat impedit inventore iste
+                minus non, quae recusandae voluptate. Accusamus ex harum, mollitia quaerat quibusdam rerum saepe
+                similique tenetur.</span>
+            </p>
+        </div>
+        <div class="main-img"><img src="{{ url_for('static', filename='/images/clients.jpg') }}" alt=""></div>
+        <div class="main-tex">
+            <p>
+                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aut cumque est fuga ipsum
+                    labore libero maiores nam nihil officiis possimus qui quidem, quo reprehenderit rerum
+                    sapiente similique, suscipit. Neque?</span><span>Adipisci aspernatur assumenda debitis
+                dolore eum fugit ipsum nemo omnis, praesentium quam. Aspernatur ipsum maxime nihil odio,
+                perspiciatis praesentium recusandae. Accusantium aperiam dolore dolorem fuga nihil sequi sunt
+                vel veniam!</span><span>Ad doloribus ducimus eveniet facere hic molestiae, quidem quod.
+                Culpa cum earum eos et facere, facilis iste itaque iure obcaecati officia quas quod repellendus
+                reprehenderit sapiente tempora tempore ut voluptate.</span><span>Accusantium consequatur
+                debitis id in ipsum molestiae quos sint voluptatibus. Asperiores aut consequuntur cupiditate
+                dolore ducimus eligendi, eveniet magnam maiores nam non nulla obcaecati porro quis sapiente
+                totam, ut vero.</span>
+            </p>
+        </div>
+
+    </div>
+</main>
 
 {% endblock %}

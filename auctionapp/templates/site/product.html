@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main>
+    <h5>{{ page_title }}</h5>
+    <div class="wrap-product">
+        <div class="page">
+            <div class="sp-wrap">
+                <a href="{{ url_for('static', filename='/images/items/02.jpg') }}">
+                    <img src="{{ url_for('static', filename='/images/items/02.jpg') }}" alt="">
+                </a>
+                <a href="{{ url_for('static', filename='/images/items/09.jpg') }}">
+                    <img src="{{ url_for('static', filename='/images/items/09.jpg') }}" alt="">
+                </a>
+            </div>
+        </div>
+
+        <div class="description">
+            <p><span>ID:</span> Название товара</p>
+            <p><span>Код товара:</span> 18 </p>
+            <p><span>Описание:</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Assumenda dolore exercitationem fuga nobis nostrum quas tenetur ullam. Animi
+                beatae consectetur, esse fuga fugiat fugit nemo pariatur quasi quibusdam quis
+                sunt?
+            </p>
+            <p><span>Состояние:</span></p>
+            <p><span>Текущая цена:</span> ₽</p>
+
+            <button>Сделать ставку</button>
+
+        </div>
+    </div>
+</main>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='/js/smoothproducts.js') }}"></script>
+<script src="{{ url_for('static', filename='/js/product.js') }}"></script>
+<script src="{{ url_for('static', filename='/js/smoothproducts.min.js') }}"></script>
+{% endblock %}

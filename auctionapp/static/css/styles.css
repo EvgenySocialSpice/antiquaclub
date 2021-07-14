@@ -88,20 +88,24 @@ a:hover{
     transform: scale(1.01);
 }
 aside{
-    border: #bfddc6 1px solid;
     margin: 30px 0 0 30px;
 }
 aside h3{
     background-color: transparent;
 }
-aside, aside>ul{
+
+aside ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    min-height: 350px;
+}
+.aside-categories{
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-aside ul{
-    justify-content: space-evenly;
-    min-height: 295px;
+    border: #bfddc6 1px solid;
+    padding: 0 0 20px;
 }
 h2, h3{
     font-size: 21px;
@@ -132,6 +136,11 @@ main h2, article h3{
 .main-article{
     width: 80%;
     line-height: 26px;
+}
+.main-img{
+    float: left;
+    width: 40%;
+    padding: 10px 20px 0 0;
 }
 .frame {
     width: 100%;
@@ -358,4 +367,45 @@ input{
 .input-btn input:hover{
     color: #fff;
     box-shadow: 5px 5px 15px #81795c;
+}
+/******product********/
+.wrap-product{
+    display: flex;
+    flex-wrap: wrap;
+}
+.page{
+    padding: 5px;
+    background: #fff;
+    color: #555;
+    min-height: 460px;
+}
+.sp-wrap a{
+    min-height: 100px
+}
+.description {
+    width: 60%;
+    padding: 20px;
+}
+
+.description p {
+    font-size: 20px;
+    padding: 3px;
+    text-align: left;
+}
+
+.description span {
+    color: #0f5378;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.description button {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    width: 140px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 15px 0;
+    padding: 5px;
 }
