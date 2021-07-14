@@ -1,4 +1,3 @@
-from sqlalchemy.sql.expression import join
 from auctionapp.db import Base, engine
 
 from sqlalchemy import Column, Integer, String, DateTime, Date, ForeignKey, Boolean
@@ -23,8 +22,8 @@ class User(Base, UserMixin):
     reg_datetime = Column(DateTime(), nullable=False)
     password = Column(String(), nullable=False)
     role_user = Column(String(15))
-    item_sales = relationship("Item", backref="sales", lazy="joined", foreign_keys="Item.seller_user_id")
-    item_purchases = relationship("Item", backref="purchases", lazy="joined", foreign_keys="Item.buyer_user_id")
+    item_sales = relationship("Item", lazy="joined", foreign_keys="Item.seller_user_id")
+    item_purchases = relationship("Item", lazy="joined", foreign_keys="Item.buyer_user_id")
     bets = relationship("Bet", lazy="joined")
     phone_confirmed = Column(Boolean())
     email_confirmed = Column(Boolean())
@@ -69,9 +68,9 @@ class Item(Base):
     seller_user_id = Column(Integer(), ForeignKey(User.id), index=True, nullable=False)
     buyer_user_id = Column(Integer(), ForeignKey(User.id), index=True)
     status = Column(String(), nullable=False, index=True)
-    category = relationship("Category", lazy="joined")
-    buyer = relationship("User", foreign_keys=[buyer_user_id], lazy="joined")
-    seller = relationship("User", foreign_keys=[seller_user_id], lazy="joined")
+    category = relationship("Category", lazy="joined", overlaps="items")
+    buyer = relationship("User", foreign_keys=[buyer_user_id], lazy="joined", overlaps="item_purchases")
+    seller = relationship("User", foreign_keys=[seller_user_id], lazy="joined", overlaps="item_sales")
     bets = relationship("Bet", lazy="joined")
     tags = relationship("ItemTag", lazy="joined")
 
@@ -88,8 +87,8 @@ class Bet(Base):
     trans_time = Column(DateTime(), nullable=False, index=True)
     current_price = Column(Integer(), index=True, nullable=False)
     bet_type = Column(String(20), index=True, nullable=False)
-    user = relationship("User", lazy="joined")
-    item = relationship("Item", lazy="joined")
+    user = relationship("User", lazy="joined", overlaps="bets")
+    item = relationship("Item", lazy="joined", overlaps="bets")
 
     def __repr__(self):
         return f"bet {self.id} by {self.user_id} at {self.trans_time}"
@@ -112,8 +111,8 @@ class ItemTag(Base):
     id = Column(Integer(), primary_key=True)
     item_id = Column(Integer(), ForeignKey(Item.id), index=True, nullable=False)
     tag_id = Column(Integer(), ForeignKey(Tag.id), index=True, nullable=False)
-    item = relationship("Item", lazy="joined")
-    tag = relationship("Tag", lazy="joined")
+    item = relationship("Item", lazy="joined", overlaps="tags")
+    tag = relationship("Tag", lazy="joined", overlaps="items")
 
     def __repr__(self):
         return f"Товар {self.item_id} тэг {self.tag_id}"

@@ -1,7 +1,13 @@
-from auctionapp.queiries import get_items_by_category, get_user_by_id
+from auctionapp.models_db import Category
+from auctionapp.queiries import get_items_by_category, get_items
+
+
+def print_list(rows):
+    for row in rows:
+        print(row)
+
 
 if __name__ == "__main__":
-    items_by_category = get_items_by_category("Часы")
-    # items = get_user_by_id()
-    for item in items_by_category:
-        print(f"{item.name} -{item.reg_time}" )
+    items_by_category = get_items_by_category()
+    items = get_items()
+    print_list(items_by_category)
