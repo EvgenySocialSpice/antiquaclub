@@ -1,11 +1,12 @@
-from flask import Flask, flash, render_template, redirect, url_for
+from flask import Flask, flash, render_template, redirect, url_for, abort
 from auctionapp.models_db import Base
+from auctionapp.queiries import get_items_by_category, get_categories
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile("config.py")
-    #Base.init_app(app)
+    Base.init_app(app)
     
     @app.route('/')
     def index():
@@ -40,6 +41,9 @@ def create_app():
     @app.route('/category')
     def category():
         title = 'Лоты категории:'
+        list_categories = get_categories()
+        if not list_categories:
+            abort(404)
         return render_template('site/category.html', page_title=title)
 
     @app.route('/product')
