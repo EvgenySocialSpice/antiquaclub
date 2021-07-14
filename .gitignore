@@ -131,3 +131,5 @@ dmypy.json
 #myfiles
 config.py
 .vscode/
+test.py
+create_data_and_load_badcode.py
