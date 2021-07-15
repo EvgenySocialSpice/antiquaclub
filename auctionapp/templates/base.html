@@ -38,19 +38,10 @@
     <div class="aside-categories">
         <h3>Категории</h3>
         <ul>
-            <li><a href="/category">Серебро</a></li>
-            <li><a href="/">Картины</a></li>
-            <li><a href="/">Мебель</a></li>
-            <li><a href="/">Марки</a></li>
-            <li><a href="/">Ювелирные</a></li>
-            <li><a href="/">Оружие</a></li>
-            <li><a href="/">Часы</a></li>
-            <li><a href="/">Разное</a></li>
-            <li><a href="/">Разное</a></li>
-            <li><a href="/">Разное</a></li>
-            <li><a href="/">Разное</a></li>
-            <li><a href="/">Разное</a></li>
-        </ul>
+            {% for category_item in categories %}
+            <li><a href="{{ url_for('category', category_id=category_item.id) }}" >{{ category_item.name }}</a></li>
+            {% endfor %}
+        </ul> 
     </div>
 </aside>
 {% block content %}{% endblock %}

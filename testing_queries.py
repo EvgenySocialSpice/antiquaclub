@@ -4,7 +4,7 @@ from auctionapp.queiries import get_categories, get_items_by_category
 
 def print_list(rows):
     for row in rows:
-        print(row)
+        print(f"{row[0]} - id {row[1]} ")
 
 
 def print_items(items):
@@ -15,7 +15,7 @@ def print_items(items):
 if __name__ == "__main__":
     categories = get_categories()
 
-    print_list(categories)
+    print(categories)
 
     # items = get_items_by_category("Часы")
     # print_items(items)
