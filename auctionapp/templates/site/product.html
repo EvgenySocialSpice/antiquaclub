@@ -2,7 +2,7 @@
 {% block content %}
 
 <main>
-    <h5>{{ page_title }}</h5>
+    <h2>{{ page_title }}</h2>
     <div class="wrap-product">
         <div class="page">
             <div class="sp-wrap">
@@ -16,19 +16,27 @@
         </div>
 
         <div class="description">
-            <p><span>ID:</span> Название товара</p>
-            <p><span>Код товара:</span> 18 </p>
-            <p><span>Описание:</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Assumenda dolore exercitationem fuga nobis nostrum quas tenetur ullam. Animi
-                beatae consectetur, esse fuga fugiat fugit nemo pariatur quasi quibusdam quis
-                sunt?
-            </p>
-            <p><span>Состояние:</span></p>
-            <p><span>Текущая цена:</span> ₽</p>
+            <p><span>Наименование лота: </span>{{ item.name }}</p>
+            <p><span>Код товара:</span> {{ item.id }} </p>
+            <p><span>Описание:</span> {{ item.description }}</p>
+            <p><span>Год изготовления:</span> {{ item.year }}</p>
+            <p><span>Начальная цена:</span> {{ item.nom_price }} ₽</p>
+            <p><span>Текущая цена:</span> {{ item.last_price }} ₽</p>
 
             <button>Сделать ставку</button>
 
         </div>
+    </div>
+    <h2>Популярные лоты</h2>
+    <div class="items">
+        {% for item in items_list %}
+        <div>
+            <a href="/" class="item-link"></a>
+            <img src="{{ url_for('static', filename='/images/items/09.jpg') }}" alt="">
+            <p>{{ item.name}}</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+        {% endfor %}
     </div>
 </main>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
