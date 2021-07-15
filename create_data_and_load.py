@@ -75,6 +75,7 @@ def fake_items(item_list, categories, users):
                     "seller_user_id": random.choice(users)["id"],
                     "buyer_user_id": None,
                     "status": "future_sale",
+                    "photo": True
                     }
             items.append(item)
     return items

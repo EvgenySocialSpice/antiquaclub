@@ -15,9 +15,12 @@
         {% for item in item_list %}
         <div>
             <h4> {{ item.name }} </h4>
-            <a href="/product" class="item-link"></a>
-            <img src="{{ url_for('static', filename='/images/items/02.jpg') }}" alt="">
-            
+            <a href="{{ url_for('product', item_id=item.id) }}" class="item-link"></a>
+            {% if item.photo %}
+                    <img src="{{ url_for('static', filename='/images/items/'~item.id~'.jpg') }}" alt="">
+            {% else %}
+                    <img src="{{ url_for('static', filename='/images/items/default.jpg') }}" alt="">    
+            {% endif %}
             <p> {{ item.description }}</p>
             <p> Год: <span>{{ item.year }}</span></p>
             {% if item.status == 'success_sale' %}

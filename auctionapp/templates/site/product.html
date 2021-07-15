@@ -6,12 +6,16 @@
     <div class="wrap-product">
         <div class="page">
             <div class="sp-wrap">
-                <a href="{{ url_for('static', filename='/images/items/02.jpg') }}">
-                    <img src="{{ url_for('static', filename='/images/items/02.jpg') }}" alt="">
-                </a>
-                <a href="{{ url_for('static', filename='/images/items/09.jpg') }}">
-                    <img src="{{ url_for('static', filename='/images/items/09.jpg') }}" alt="">
-                </a>
+
+
+                {% if item.photo %}
+                    <a href="{{ url_for('static', filename='/images/items/'~item.id~'.jpg') }}">
+                        <img src="{{ url_for('static', filename='/images/items/'~item.id~'.jpg') }}" alt="">
+                    </a>
+                {% else %}
+                    <img src="{{ url_for('static', filename='/images/items/default.jpg') }}" alt="">    
+                {% endif %}
+
             </div>
         </div>
 
@@ -31,8 +35,12 @@
     <div class="items">
         {% for item in items_list %}
         <div>
-            <a href="/" class="item-link"></a>
-            <img src="{{ url_for('static', filename='/images/items/09.jpg') }}" alt="">
+            <a href="{{ url_for('product', item_id=item.id) }}" class="item-link"></a>
+            {% if item.photo %}
+                <img src="{{ url_for('static', filename='/images/items/'~item.id~'.jpg') }}" alt="">
+            {% else %}
+                <img src="{{ url_for('static', filename='/images/items/default.jpg') }}" alt="">    
+            {% endif %}
             <p>{{ item.name}}</p>
             <p>Стартовая цена: <span>200 ₽</span></p>
         </div>

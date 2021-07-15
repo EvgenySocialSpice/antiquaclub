@@ -1,62 +1,70 @@
 from flask import Flask, abort, flash, render_template, redirect, url_for
 from auctionapp.models_db import Item
 
+from flask import Flask, flash, render_template, redirect, url_for, abort
+from auctionapp.models_db import Base
+from auctionapp.queiries import get_items_by_category, get_item_by_id, get_items_limit
+from auctionapp.site_func import get_categories_cache, get_ttl_hash
+
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile("config.py")
     # Base.init_app(app)
-    
+
     @app.route('/')
     def index():
         title = 'АнтиквА Аукцион онлайн'
-        list_categories = get_categories()
-        if not list_categories:
-            abort(404)
+        list_categories = get_categories_cache(ttl_hash=get_ttl_hash())
         return render_template('site/index.html', page_title=title, categories=list_categories)
 
     @app.route('/about')
     def about():
         title = 'О нас'
-        return render_template('site/about.html', page_title=title)
+        categories = get_categories_cache()
+        return render_template('site/about.html', page_title=title, categories=categories)
 
     @app.route('/contacts')
     def contacts():
         title = 'Контакты'
-        return render_template('site/contacts.html', page_title=title)
+        categories = get_categories_cache()
+        return render_template('site/contacts.html', page_title=title, categories=categories)
 
     @app.route('/login')
     def login():
         title = 'Авторизация'
-        return render_template('user/login.html', page_title=title)
+        categories = get_categories_cache()
+        return render_template('user/login.html', page_title=title, categories=categories)
 
     @app.route('/auction')
     def auction():
         title = 'Открытые Лоты'
-        return render_template('site/auction.html', page_title=title)
+        categories = get_categories_cache()
+        return render_template('site/auction.html', page_title=title, categories=categories)
 
     @app.route('/popular')
     def popular():
         title = 'Популярные Лоты'
-        return render_template('site/popular.html', page_title=title)
-
-    # @blueprint.route('/news/<int:news_id>')
+        categories = get_categories_cache()
+        return render_template('site/popular.html', page_title=title, categories=categories)
 
     @app.route('/category/<int:category_id>')
     def category(category_id):
         item_list = get_items_by_category(category_id)
-        
+        categories = get_categories_cache(ttl_hash=get_ttl_hash())
         if not item_list:
             abort(404)
         title = 'Лоты категории:'
-        return render_template('site/category.html', page_title=title, item_list=item_list)
+        return render_template('site/category.html', page_title=title, item_list=item_list, categories=categories)
 
     @app.route('/product/<int:item_id>')
     def product(item_id):
-        my_item = Item.query.filter(Item.id == item_id).first()
+        my_item = get_item_by_id(item_id)
+        categories = get_categories_cache()
         if not item_id:
             abort(404)
-        items_list = Item.query.limit(4).all()
-        return render_template('site/product.html', page_title=my_item.name, items_list=items_list, item=my_item)
+        items_list = get_items_limit()
+        return render_template('site/product.html', page_title=my_item.name, items_list=items_list,
+                               item=my_item, categories=categories)
 
     return app

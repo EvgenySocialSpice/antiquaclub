@@ -54,16 +54,19 @@ fake = Faker('ru_Ru')
 # # for row in a_list:
 # #     print(row["number"])
 
-spisok = []
-row = {"a": 1, "b": 2, "c": 3}
-spisok.append(row)
-row = spisok[-1].copy()
-row["a"] = 10
-spisok.append(row)
-print(spisok)
+# spisok = []
+# row = {"a": 1, "b": 2, "c": 3}
+# spisok.append(row)
+# row = spisok[-1].copy()
+# row["a"] = 10
+# spisok.append(row)
+# print(spisok)
 
-[{'a': 10, 'b': 2, 'c': 3}, 
- {'a': 10, 'b': 2, 'c': 3}]
+# [{'a': 10, 'b': 2, 'c': 3}, 
+#  {'a': 10, 'b': 2, 'c': 3}]
 
-[{'a': 1, 'b': 2, 'c': 3}, 
- {'a': 10, 'b': 2, 'c': 3}]
+# [{'a': 1, 'b': 2, 'c': 3}, 
+#  {'a': 10, 'b': 2, 'c': 3}]
+
+rand = random.randrange(0, 5)
+print(rand)
