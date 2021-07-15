@@ -1,5 +1,5 @@
-from flask import Flask, flash, render_template, redirect, url_for
-from auctionapp.models_db import Base
+from flask import Flask, abort, flash, render_template, redirect, url_for
+from auctionapp.models_db import Item
 
 
 def create_app():
@@ -42,9 +42,12 @@ def create_app():
         title = 'Лоты категории:'
         return render_template('site/category.html', page_title=title)
 
-    @app.route('/product')
-    def product():
-        title = ''
-        return render_template('site/product.html', page_title=title)
+    @app.route('/product/<int:item_id>')
+    def product(item_id):
+        my_item = Item.query.filter(Item.id == item_id).first()
+        if not item_id:
+            abort(404)
+        items_list = Item.query.limit(4).all()
+        return render_template('site/product.html', page_title=my_item.name, items_list=items_list, item=my_item)
 
     return app
