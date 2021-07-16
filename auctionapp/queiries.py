@@ -13,8 +13,15 @@ def get_categories():
 
 
 def get_items_by_category(category_id):
-    items = db.session.query(Item).filter(
-            Item.category_id == category_id).all()
+    # items = db.session.query().filter(
+    #         Item.category_id == category_id).all()
+    list_items = []
+    items = db.session.query(Item.name, Item.id, Item.description, Item.status, Item.photo, Item.last_price,
+                             Item.nom_price, Item.year).filter(Item.category_id == category_id).all()
+    if items:
+        for item in items:
+            list_items.append({"id": item.id, "name": item.name, "description": item.description, "status": item.status,
+                               "photo": item.photo, "last_price": item.last_price, "year": item.year})
 
     return items
 
