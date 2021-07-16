@@ -68,7 +68,7 @@ class Item(Base):
     seller_user_id = Column(Integer(), ForeignKey(User.id), index=True, nullable=False)
     buyer_user_id = Column(Integer(), ForeignKey(User.id), index=True)
     status = Column(String(), nullable=False, index=True)
-    photo = Column(Boolean())
+    photo = Column(String(200))
     category = relationship("Category", lazy="joined", overlaps="items")
     buyer = relationship("User", foreign_keys=[buyer_user_id], lazy="joined", overlaps="item_purchases")
     seller = relationship("User", foreign_keys=[seller_user_id], lazy="joined", overlaps="item_sales")

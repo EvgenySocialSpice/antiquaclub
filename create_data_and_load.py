@@ -75,7 +75,7 @@ def fake_items(item_list, categories, users):
                     "seller_user_id": random.choice(users)["id"],
                     "buyer_user_id": None,
                     "status": "future_sale",
-                    "photo": True
+                    "photo": "/images/items/"
                     }
             items.append(item)
     return items
@@ -184,6 +184,14 @@ def fake_success_sales(items, bets, items_to_change, users, success_sales):
     return bets, items_to_change
 
 
+def update_pics_url(items):
+    for item in items:
+        item["photo"] = item["photo"] + str(item["id"])+".jpg"
+    update_items(items)
+
+    return items
+
+
 def fake_bets(users, items, failed_sales=6, success_sales=18):
     bets = []
     items_to_change = []
@@ -229,6 +237,7 @@ def main():
 
     items = fake_items(items, categories, users)
     items = load_data(items, Item)
+    items = update_pics_url(items)
 
     tags_items = tags_for_items(items, tags)
     load_data(tags_items, ItemTag, get_id=False)

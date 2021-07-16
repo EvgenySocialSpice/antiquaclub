@@ -17,7 +17,7 @@
             <h4> {{ item.name }} </h4>
             <a href="{{ url_for('product', item_id=item.id) }}" class="item-link"></a>
             {% if item.photo %}
-                    <img src="{{ url_for('static', filename='/images/items/'~item.id~'.jpg') }}" alt="">
+                    <img src="{{ url_for('static', filename=item.photo) }}" alt="">
             {% else %}
                     <img src="{{ url_for('static', filename='/images/items/default.jpg') }}" alt="">    
             {% endif %}
