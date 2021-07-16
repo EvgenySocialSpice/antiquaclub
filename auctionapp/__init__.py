@@ -16,7 +16,8 @@ def create_app():
     def index():
         title = 'АнтиквА Аукцион онлайн'
         list_categories = get_categories_cache(ttl_hash=get_ttl_hash())
-        return render_template('site/index.html', page_title=title, categories=list_categories)
+        items_list = get_items_limit(8)
+        return render_template('site/index.html', page_title=title, categories=list_categories, items_list=items_list)
 
     @app.route('/about')
     def about():
@@ -40,13 +41,15 @@ def create_app():
     def auction():
         title = 'Открытые Лоты'
         categories = get_categories_cache()
-        return render_template('site/auction.html', page_title=title, categories=categories)
+        items_list = get_items_limit(12)
+        return render_template('site/auction.html', page_title=title, categories=categories, items_list=items_list)
 
     @app.route('/popular')
     def popular():
         title = 'Популярные Лоты'
         categories = get_categories_cache()
-        return render_template('site/popular.html', page_title=title, categories=categories)
+        items_list = get_items_limit(12)
+        return render_template('site/popular.html', page_title=title, categories=categories, items_list=items_list)
 
     @app.route('/category/<int:category_id>')
     def category(category_id):
