@@ -12,55 +12,18 @@
     </div>
     <article>
     <div class="items">
+        {% for item in items_list %}
         <div>
-            <a href="/product" class="item-link"></a>
-            <img src="{{ url_for('static', filename='/images/items/21.jpg') }}" alt="">
-            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
-            <p>Стартовая цена: <span>200 ₽</span></p>
+            <a href="{{ url_for('product', item_id=item.id) }}" class="item-link"></a>
+            {% if item.photo %}
+                <img src="{{ url_for('static', filename=item.photo) }}" alt="">
+            {% else %}
+                <img src="{{ url_for('static', filename='/images/items/default.jpg') }}" alt="">
+            {% endif %}
+            <p>{{ item.name}}</p>
+            <p>Стартовая цена: <span>{{ item.nom_price }}₽</span></p>
         </div>
-
-        <div>
-            <a href="/" class="item-link"></a>
-            <img src="{{ url_for('static', filename='/images/items/27.jpg') }}" alt="">
-            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
-            <p>Стартовая цена: <span>200 ₽</span></p>
-        </div>
-        <div>
-            <a href="/" class="item-link"></a>
-            <img src="{{ url_for('static', filename='/images/items/18.jpg') }}" alt="">
-            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
-            <p>Стартовая цена: <span>200 ₽</span></p>
-        </div>
-        <div>
-            <a href="/" class="item-link"></a>
-            <img src="{{ url_for('static', filename='/images/items/9.jpg') }}" alt="">
-            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
-            <p>Стартовая цена: <span>200 ₽</span></p>
-        </div>
-        <div>
-            <a href="/" class="item-link"></a>
-            <img src="{{ url_for('static', filename='/images/items/11.jpg') }}" alt="">
-            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
-            <p>Стартовая цена: <span>200 ₽</span></p>
-        </div>
-        <div>
-            <a href="/" class="item-link"></a>
-            <img src="{{ url_for('static', filename='/images/items/25.jpg') }}" alt="">
-            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
-            <p>Стартовая цена: <span>200 ₽</span></p>
-        </div>
-        <div>
-            <a href="/" class="item-link"></a>
-            <img src="{{ url_for('static', filename='/images/items/3.jpg') }}" alt="">
-            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
-            <p>Стартовая цена: <span>200 ₽</span></p>
-        </div>
-        <div>
-            <a href="/" class="item-link"></a>
-            <img src="{{ url_for('static', filename='/images/items/31.jpg') }}" alt="">
-            <p>Редкая шкатулка начала 19 века, ручная работа, состояние идеальное</p>
-            <p>Стартовая цена: <span>200 ₽</span></p>
-        </div>
+        {% endfor %}
     </div>
 </article>
 </main>
