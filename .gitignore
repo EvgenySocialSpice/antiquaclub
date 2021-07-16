@@ -135,3 +135,4 @@ test.py
 testing_queries.py
 create_data_and_load_badcode.py
 close_db.py
+.idea/

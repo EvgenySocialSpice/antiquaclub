@@ -80,6 +80,7 @@ html, body {
 }
 .sp-large a img {
 	max-width: 100%;
+	width: 510px;
 	height: auto;
 }
 .sp-large a {
@@ -118,7 +119,7 @@ html, body {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	max-width: 70%;
+	max-width: 45%;
 	border: 2px solid #fff;
 }
 #sp-prev, #sp-next {
