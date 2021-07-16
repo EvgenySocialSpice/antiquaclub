@@ -128,8 +128,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-#myfiles
+# myfiles
 config.py
 .vscode/
 test.py
+testing_queries.py
 create_data_and_load_badcode.py
+close_db.py

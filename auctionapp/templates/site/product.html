@@ -6,12 +6,16 @@
     <div class="wrap-product">
         <div class="page">
             <div class="sp-wrap">
-                <a href="{{ url_for('static', filename='/images/items/02.jpg') }}">
-                    <img src="{{ url_for('static', filename='/images/items/02.jpg') }}" alt="">
-                </a>
-                <a href="{{ url_for('static', filename='/images/items/09.jpg') }}">
-                    <img src="{{ url_for('static', filename='/images/items/09.jpg') }}" alt="">
-                </a>
+
+
+                {% if item.photo %}
+                    <a href="{{ url_for('static', filename=item.photo) }}">
+                        <img src="{{ url_for('static', filename=item.photo) }}" alt="">
+                    </a>
+                {% else %}
+                    <img src="{{ url_for('static', filename='/images/items/default.jpg') }}" alt="">    
+                {% endif %}
+
             </div>
         </div>
 
@@ -20,10 +24,22 @@
             <p><span>Код товара:</span> {{ item.id }} </p>
             <p><span>Описание:</span> {{ item.description }}</p>
             <p><span>Год изготовления:</span> {{ item.year }}</p>
-            <p><span>Начальная цена:</span> {{ item.nom_price }} ₽</p>
-            <p><span>Текущая цена:</span> {{ item.last_price }} ₽</p>
+            <!-- <p><span>Начальная цена:</span> {{ item.nom_price }} ₽</p> -->
+            {% if item.status == 'success_sale' %}
+                    <p><span>Продан</span></p>
+                    <p><span>Последняя цена: </span>{{ item.last_price }}</span></p>
+            {% else %}
+                    {% if item.status == 'failed_sale' %}
+                            <p><span>Аукцион не состоялся</span></p>
+                            <p><span>Последняя цена: </span>{{ item.nom_price }}</p>
+                    {% else %}
+                        <p><span>Стартовая цена: </span>{{ item.nom_price }}</p>
+                        <button>Сделать ставку</button>
+                    {% endif %}
+            {% endif %}
+            <!-- <p><span>Текущая цена:</span> {{ item.last_price }} ₽</p> -->
 
-            <button>Сделать ставку</button>
+            
 
         </div>
     </div>
@@ -31,8 +47,12 @@
     <div class="items">
         {% for item in items_list %}
         <div>
-            <a href="/" class="item-link"></a>
-            <img src="{{ url_for('static', filename='/images/items/09.jpg') }}" alt="">
+            <a href="{{ url_for('product', item_id=item.id) }}" class="item-link"></a>
+            {% if item.photo %}
+                <img src="{{ url_for('static', filename=item.photo) }}" alt="">
+            {% else %}
+                <img src="{{ url_for('static', filename='/images/items/default.jpg') }}" alt="">    
+            {% endif %}
             <p>{{ item.name}}</p>
             <p>Стартовая цена: <span>200 ₽</span></p>
         </div>
