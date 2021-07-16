@@ -1,4 +1,4 @@
-from auctionapp.db import Base, engine
+from auctionapp.db import db
 
 from sqlalchemy import Column, Integer, String, DateTime, Date, ForeignKey, Boolean
 from sqlalchemy_utils import EmailType
@@ -9,7 +9,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-class User(Base, UserMixin):
+class User(db.Model, UserMixin):
     __tablename__ = "users"
 
     id = Column(Integer(), primary_key=True)
@@ -38,18 +38,18 @@ class User(Base, UserMixin):
         return f"User {self.id}, {self.nickname}, {self.email}"
 
 
-class Category(Base):
+class Category(db.Model):
     __tablename__ = "categories"
 
     id = Column(Integer(), primary_key=True)
     name = Column(String(), nullable=False, index=True, unique=True)
-    items = relationship("Item", lazy="joined")
+    items = relationship("Item", lazy="joined", foreign_keys="Item.category_id")
 
     def __repr__(self):
         return f"Category {self.id}, {self.name}"
 
 
-class Item(Base):
+class Item(db.Model):
     __tablename__ = "items"
 
     id = Column(Integer(), primary_key=True)
@@ -79,7 +79,7 @@ class Item(Base):
         return f"Item {self.id}, {self.name}"
 
 
-class Bet(Base):
+class Bet(db.Model):
     __tablename__ = "bets"
 
     id = Column(Integer, primary_key=True)
@@ -95,7 +95,7 @@ class Bet(Base):
         return f"bet {self.id} by {self.user_id} at {self.trans_time}"
 
 
-class Tag(Base):
+class Tag(db.Model):
     __tablename__ = "tags"
 
     id = Column(Integer(), primary_key=True)
@@ -106,7 +106,7 @@ class Tag(Base):
         return f"Tag {self.id}: {self.name}"
 
 
-class ItemTag(Base):
+class ItemTag(db.Model):
     __tablename__ = "items_tags"
 
     id = Column(Integer(), primary_key=True)
@@ -119,5 +119,5 @@ class ItemTag(Base):
         return f"Товар {self.item_id} тэг {self.tag_id}"
 
 
-def create_models():
-    Base.metadata.create_all(bind=engine)
+# def create_models():
+#     Base.metadata.create_all(bind=engine)

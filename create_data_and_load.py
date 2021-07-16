@@ -1,7 +1,7 @@
 from faker import Faker
 from datetime import timedelta
 import random
-from auctionapp.db import db_session
+from auctionapp.db import db
 from auctionapp.models_db import User, Tag, Item, ItemTag, Bet, Category, generate_password_hash
 from transliterate import translit
 
@@ -94,8 +94,8 @@ def tags_for_items(items, tags):
 
 
 def load_data(data, model, get_id=True):
-    db_session.bulk_insert_mappings(model, data, return_defaults=get_id)
-    db_session.commit()
+    db.session.bulk_insert_mappings(model, data, return_defaults=get_id)
+    db.session.commit()
     return data
 
 
@@ -202,8 +202,8 @@ def fake_bets(users, items, failed_sales=6, success_sales=18):
 
 
 def update_items(items):
-    db_session.bulk_update_mappings(Item, items)
-    db_session.commit()
+    db.session.bulk_update_mappings(Item, items)
+    db.session.commit()
 
 
 def main():
