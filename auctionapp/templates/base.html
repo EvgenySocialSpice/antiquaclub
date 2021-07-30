@@ -39,7 +39,7 @@
         <h3>Категории</h3>
         <ul>
             {% for category_item in categories %}
-            <li><a href="{{ url_for('category', category_id=category_item.id) }}" >{{ category_item.name }}</a></li>
+            <li><a href="{{ url_for('item.category', category_id=category_item.id) }}" >{{ category_item.name }}</a></li>
             {% endfor %}
         </ul> 
     </div>

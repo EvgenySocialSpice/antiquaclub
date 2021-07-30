@@ -2,7 +2,7 @@ from auctionapp.db import db
 
 from sqlalchemy import Column, Integer, String, DateTime, Date, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
-from user.models import User
+from auctionapp.user.models import User
 
 
 class Category(db.Model):

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from site_func import get_categories_cache
+from auctionapp.site_func import get_categories_cache
 
 blueprint = Blueprint("user", __name__, url_prefix="/users")
 
