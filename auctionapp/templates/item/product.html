@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main>
+    <h2>{{ page_title }}</h2>
+    <div class="wrap-product">
+        <div class="page">
+            <div class="sp-wrap">
+
+
+                {% if item.photo %}
+                    <a href="{{ url_for('static', filename=item.photo) }}">
+                        <img src="{{ url_for('static', filename=item.photo) }}" alt="">
+                    </a>
+                {% else %}
+                    <img src="{{ url_for('static', filename='/images/items/default.jpg') }}" alt="">    
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class="description">
+            <p><span>Наименование лота: </span>{{ item.name }}</p>
+            <p><span>Код товара:</span> {{ item.id }} </p>
+            <p><span>Описание:</span> {{ item.description }}</p>
+            <p><span>Год изготовления:</span> {{ item.year }}</p>
+            <!-- <p><span>Начальная цена:</span> {{ item.nom_price }} ₽</p> -->
+            {% if item.status == 'success_sale' %}
+                    <p><span>Продан</span></p>
+                    <p><span>Последняя цена: </span>{{ item.last_price }}₽</span></p>
+            {% else %}
+                    {% if item.status == 'failed_sale' %}
+                            <p><span>Аукцион не состоялся</span></p>
+                            <p><span>Последняя цена: </span>{{ item.nom_price }}₽</p>
+                    {% else %}
+                        <p><span>Стартовая цена: </span>{{ item.nom_price }}₽</p>
+                        <button>Сделать ставку</button>
+                    {% endif %}
+            {% endif %}
+            <!-- <p><span>Текущая цена:</span> {{ item.last_price }} ₽</p> -->
+
+            
+
+        </div>
+    </div>
+    <h2>Популярные лоты</h2>
+    <div class="items">
+        {% for item in items_list %}
+        <div>
+            <a href="{{ url_for('product', item_id=item.id) }}" class="item-link"></a>
+            {% if item.photo %}
+                <img src="{{ url_for('static', filename=item.photo) }}" alt="">
+            {% else %}
+                <img src="{{ url_for('static', filename='/images/items/default.jpg') }}" alt="">    
+            {% endif %}
+            <p>{{ item.name}}</p>
+            <p>Стартовая цена: <span>200 ₽</span></p>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='/js/smoothproducts.js') }}"></script>
+<script src="{{ url_for('static', filename='/js/product.js') }}"></script>
+<script src="{{ url_for('static', filename='/js/smoothproducts.min.js') }}"></script>
+{% endblock %}
