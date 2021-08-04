@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField, PasswordField, SubmitField, StringField
+from wtforms import SelectField, PasswordField, SubmitField, StringField, BooleanField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 
 from auctionapp.user.models import User
@@ -8,6 +8,7 @@ from auctionapp.user.models import User
 class LoginForm(FlaskForm):
     email = SubmitField('email', validators=[DataRequired()])
     password = PasswordField('пароль', validators=[DataRequired()])
+    remember_me = BooleanField('Запомнить меня', default=True, render_kw={"class": "form-check-input"})
     submit = SubmitField('отправить')
 
 
@@ -18,12 +19,11 @@ class RegistrationForm(FlaskForm):
     email = StringField('Электронная почта', validators=[DataRequired(), Email()])
     phone = StringField('Телефон', validators=[DataRequired()])
     birth_date = StringField('Дата рождения', validators=[DataRequired()])
-    reg_datetime = StringField('Дата регистрации', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Отправить!')
 
-    def validate_nickname(self, nickname):
+    def validate_nick_name(self, nickname):
         user_count = User.query.filter_by(nickname=nickname.data).count()
         if user_count > 0:
             raise ValidationError('Пользователь с таким именем уже существует')

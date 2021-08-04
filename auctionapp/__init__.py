@@ -2,7 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_login import LoginManager, current_user, login_required
 
-from auctionapp.models_db import User
+from auctionapp.user.models import User
 from auctionapp.user.views import blueprint as user_blueprint
 from auctionapp.site.views import blueprint as site_blueprint
 from auctionapp.item.views import blueprint as item_blueprint

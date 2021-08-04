@@ -45,14 +45,15 @@ def register():
         return redirect(url_for('site.index'))
     title = "Регистрация"
     form = RegistrationForm()
-    return render_template('user/registration.html', page_title=title, form=form)
+    categories = get_categories_cache()
+    return render_template('user/registration.html', page_title=title, categories=categories, form=form)
 
 
 @blueprint.route('/process-reg', methods=['POST'])
 def process_reg():
     form = RegistrationForm()
     if form.validate_on_submit():
-        news_user = User(nickname=form.nick_name.data, email=form.email.data, role='user')
+        news_user = User(nickname=form.nickname.data, email=form.email.data, role='user')
         news_user.set_password(form.password.data)
         db.session.add(news_user)
         db.session.commit()
