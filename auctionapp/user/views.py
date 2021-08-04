@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import current_user, login_user, logout_user
 from auctionapp.user.forms import LoginForm, RegistrationForm
@@ -53,7 +54,17 @@ def register():
 def process_reg():
     form = RegistrationForm()
     if form.validate_on_submit():
-        news_user = User(nickname=form.nickname.data, email=form.email.data, role='user')
+        news_user = User(name=form.name.data,
+                         last_name=form.last_name.data,
+                         nickname=form.nickname.data,
+                         email=form.email.data,
+                         phone=form.phone.data,
+                         birth_date=form.birth_date.data,
+                         reg_datetime=datetime.now(),
+                         role_user='user',
+                         phone_confirmed=True,
+                         email_confirmed=True,
+                         )
         news_user.set_password(form.password.data)
         db.session.add(news_user)
         db.session.commit()
