@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField, PasswordField, SubmitField, StringField, BooleanField
+from wtforms import SelectField, PasswordField, SubmitField, StringField, BooleanField, DateField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 
 from auctionapp.user.models import User
@@ -18,7 +18,7 @@ class RegistrationForm(FlaskForm):
     nickname = StringField('Псевдоним', validators=[DataRequired()])
     email = StringField('Электронная почта', validators=[DataRequired(), Email()])
     phone = StringField('Телефон', validators=[DataRequired()])
-    birth_date = StringField('Дата рождения', validators=[DataRequired()])
+    birth_date = DateField('Дата рождения', format="%d/%m/%Y")
     password = PasswordField('Пароль', validators=[DataRequired()])
     password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Отправить!')
@@ -32,3 +32,15 @@ class RegistrationForm(FlaskForm):
         user_count = User.query.filter_by(email=email.data).count()
         if user_count > 0:
             raise ValidationError('Пользователь с таким почтовым адресом уже существует')
+
+    def validate_phone(self, phone):
+        user_count = User.query.filter_by(phone=phone.data).count()
+        if user_count > 0:
+            raise ValidationError('Пользователь с таким телефоном уже существует')
+    
+    # def validate_birth_date(self, birth_date):
+        
+    
+        
+    
+
