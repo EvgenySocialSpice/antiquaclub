@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     name = Column(String(), nullable=False)
     last_name = Column(String(), nullable=False)
     nickname = Column(String(), unique=True, nullable=False, index=True)
-    email = Column(EmailType(), unique=True, nullable=False, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
     phone = Column(String(), unique=True, nullable=False)
     birth_date = Column(Date(), nullable=False)
     reg_datetime = Column(DateTime(), nullable=False)

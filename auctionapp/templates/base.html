@@ -12,11 +12,6 @@
 </head>
 <body>
 <header>
-    <ul class="menu">
-        <li><a href="/login">Регистрация и вход</a></li>
-        <li><a href="/">Разместить лот</a></li>
-        <li>Helpline WhatsApp: 222 33 44</li>
-    </ul>
     <div class="logo">
         <div class="logo-img"><img src="{{ url_for('static', filename='/images/logo.png') }}" alt="logo"></div>
         <div>
@@ -24,6 +19,20 @@
             <h2>Ваш онлайн аукцион</h2>
         </div>
     </div>
+    <ul class="menu">
+        {% if current_user.is_authenticated %}
+            <li>Привет, {{ current_user.nickname }}!</li>
+            <li><a href="/users/logout">Выход</a></li>
+            <li><a href="/">Разместить лот</a></li>
+            {% if current_user.is_admin %}
+                <li><a href="/">Админка </a></li>
+            {% endif %}
+        {% else %}  
+            <li><a href="/users/register">Регистрация</a></li>
+            <li><a href="/users/login">Вход</a></li>
+        {% endif %}
+        <li>Helpline WhatsApp: 222 33 44</li>
+    </ul>
     <nav>
         <ul>
             <li><a href="/">Главная</a></li>
@@ -33,6 +42,7 @@
             <li><a href="/contacts">Контакты</a></li>
         </ul>
     </nav>
+    
 </header>
 <aside>
     <div class="aside-categories">

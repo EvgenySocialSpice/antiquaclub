@@ -329,12 +329,12 @@ img{
     font-size: 21px;
     overflow: hidden;
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
 }
 
 .input-div{
-    width: 31%;
     min-height: 75px;
     margin: 20px 0 0 0;
 }
