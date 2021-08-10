@@ -28,7 +28,6 @@ def process_login():
             login_user(user, remember=form.remember_me.data)
             flash('Вы успешно вошли на сайт')
             return redirect(get_redirect_target())
-
     flash('Неправильные имя пользователя или пароль')
     return redirect(url_for('user.login'))
 
@@ -54,19 +53,20 @@ def register():
 def process_reg():
     form = RegistrationForm()
     if form.validate_on_submit():
-        news_user = User(name=form.name.data,
-                         last_name=form.last_name.data,
-                         nickname=form.nickname.data,
-                         email=form.email.data,
-                         phone=form.phone.data,
-                         birth_date=form.birth_date.data,
-                         reg_datetime=datetime.now(),
-                         role_user='user',
-                         phone_confirmed=True,
-                         email_confirmed=True,
-                         )
-        news_user.set_password(form.password.data)
-        db.session.add(news_user)
+        new_user = User(name=form.name.data,
+                        last_name=form.last_name.data,
+                        nickname=form.nickname.data,
+                        email=form.email.data,
+                        phone=form.phone.data,
+                        birth_date=form.birth_date.data,
+                        reg_datetime=datetime.now(),
+                        role_user='user',
+                        phone_confirmed=True,
+                        email_confirmed=True,
+                        )
+        new_user.set_password(form.password.data)
+        # print(new_user)
+        db.session.add(new_user)
         db.session.commit()
         flash('Вы успешно зарегистрировались!')
         return redirect(url_for('user.login'))
@@ -77,4 +77,5 @@ def process_reg():
                     getattr(form, field).label.text,
                     error
                 ))
+                print("Ошибка в поле {}: {}".format(getattr(form, field).label.text, error))
         return redirect(url_for('user.register'))

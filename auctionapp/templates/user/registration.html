@@ -3,7 +3,8 @@
 {% block content %}
 <main>
 <h2>{{ page_title }}</h2>
-<form id="contact-form" action="{{ url_for('user.process_login') }}" method="post">
+{% include('messages.html') %}
+<form id="contact-form" action="{{ url_for('user.process_reg') }}" method="POST">
 {{ form.hidden_tag() }}
     <div class="input-div">
         <input id="name" name="name" type="text" placeholder="Ваше имя" required size="40" maxlength="100" />
@@ -12,7 +13,7 @@
         <input id="last_name" name="last_name" type="text" placeholder="Ваша фамилия" required size="40" maxlength="100" />
     </div>
     <div class="input-div">
-        <input id="nick_name" name="nick_name" type="text" placeholder="Ваш псевдоним" required size="40" maxlength="100" />
+        <input id="nickname" name="nickname" type="text" placeholder="Ваш псевдоним" required size="40" maxlength="100" />
     </div>
     <div class="input-div">
         <input id="email" name="email" type="text" placeholder="Ваш адрес электронной почты" required size="40" maxlength="100" />
@@ -21,7 +22,7 @@
         <input id="phone" name="phone" type="text" placeholder="Ваш телефон" required size="40" maxlength="100" />
     </div>
     <div class="input-div">
-        <input id="birth_date" name="birth_date" type="text" placeholder="Дата рождения" required size="40" maxlength="100" />
+        <input id="birth_date" name="birth_date" type="text" placeholder="Дата рождения - день/месяц/год" required size="40" maxlength="100" />
     </div>
     <div class="input-div">
         <input id="password" name="password" type="password" placeholder="Ваш пароль" required size="40" maxlength="100" />
